@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}쪽지{% endblock %}
+{% block content %}
+<h2>1:1 채팅 목록</h2>
+<ul>
+  {% for partner in partners %}
+    <li><a href="{{ url_for('dm_chat', other_user_id=partner.id) }}">{{ partner.username }}</a></li>
+  {% else %}
+    <li>대화 내역이 없습니다. 상품 판매자 프로필에서 1:1 채팅을 시작해보세요.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

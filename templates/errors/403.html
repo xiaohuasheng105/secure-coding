@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}접근 거부{% endblock %}
+{% block content %}
+<h2>403 - 접근 권한이 없습니다</h2>
+<p><a href="{{ url_for('index') }}">홈으로 돌아가기</a></p>
+{% endblock %}

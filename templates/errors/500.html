@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}서버 오류{% endblock %}
+{% block content %}
+<h2>500 - 서버 내부 오류가 발생했습니다</h2>
+<p>문제가 지속되면 관리자에게 문의해주세요.</p>
+<p><a href="{{ url_for('index') }}">홈으로 돌아가기</a></p>
+{% endblock %}

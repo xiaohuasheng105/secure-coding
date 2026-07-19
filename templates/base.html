@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}My Market{% endblock %}</title>
-  <!-- Socket.IO 클라이언트 라이브러리 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
   <style>
     /* Notion 스타일 미니멀 디자인 */
     body {
@@ -37,13 +36,14 @@
       font-weight: 600;
       margin-bottom: 20px;
     }
-    input, textarea, button {
+    input, textarea, button, select {
       width: 100%;
       padding: 10px;
       margin-bottom: 20px;
       border: 1px solid #e0e0e0;
       border-radius: 4px;
       font-size: 16px;
+      box-sizing: border-box;
     }
     button {
       background-color: #007AFF;
@@ -51,9 +51,17 @@
       border: none;
       cursor: pointer;
       transition: background-color 0.2s;
+      width: auto;
+      padding: 10px 20px;
     }
     button:hover {
       background-color: #005BB5;
+    }
+    button.danger {
+      background-color: #D32F2F;
+    }
+    button.danger:hover {
+      background-color: #B71C1C;
     }
     ul {
       list-style: none;
@@ -70,6 +78,18 @@
       border-radius: 4px;
       margin-bottom: 20px;
     }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background-color: #eee;
+      margin-left: 8px;
+    }
+    .badge.blocked { background-color: #FFCDD2; }
+    .badge.banned { background-color: #FFCDD2; }
+    .inline-form { display: inline; }
+    .inline-form button { width: auto; padding: 6px 12px; margin: 0; }
     /* 채팅 영역 스타일 */
     #chat {
       margin-top: 40px;
@@ -89,8 +109,14 @@
   <nav>
     {% if session.get('user_id') %}
       <a href="{{ url_for('dashboard') }}">대시보드</a>
+      <a href="{{ url_for('my_products') }}">내 상품</a>
+      <a href="{{ url_for('messages_list') }}">쪽지</a>
+      <a href="{{ url_for('transfer') }}">송금</a>
       <a href="{{ url_for('profile') }}">프로필</a>
       <a href="{{ url_for('report') }}">신고하기</a>
+      {% if g.current_user and g.current_user['is_admin'] %}
+        <a href="{{ url_for('admin_dashboard') }}">관리자</a>
+      {% endif %}
       <a href="{{ url_for('logout') }}">로그아웃</a>
     {% else %}
       <a href="{{ url_for('login') }}">로그인</a>

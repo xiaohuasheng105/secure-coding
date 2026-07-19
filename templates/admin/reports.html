@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}신고 내역{% endblock %}
+{% block content %}
+<h2>신고 내역</h2>
+<p><a href="{{ url_for('admin_dashboard') }}">← 관리자 대시보드로</a></p>
+<ul>
+  {% for r in reports %}
+    <li>
+      [{{ r.target_type }}] {{ r.target_id }} - 사유: {{ r.reason }}
+      <br><small>신고자: {{ r.reporter_name }} / {{ r.created_at }}</small>
+    </li>
+  {% else %}
+    <li>신고 내역이 없습니다.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

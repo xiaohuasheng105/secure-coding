@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ other.username }}님과의 대화{% endblock %}
+{% block content %}
+<h2>{{ other.username }}님과의 1:1 채팅</h2>
+
+<div id="chat">
+  <ul id="messages">
+    {% for m in history %}
+      <li>{{ m.username }}: {{ m.content }}</li>
+    {% endfor %}
+  </ul>
+  <input id="chat_input" type="text" placeholder="메시지를 입력하세요" maxlength="500">
+  <button onclick="sendMessage()">전송</button>
+</div>
+
+<script type="text/javascript">
+  var otherId = {{ other.id | tojson }};
+  var socket = io();
+  socket.on('connect', function() {
+    socket.emit('join_dm', { other_id: otherId });
+  });
+  socket.on('dm_message', function(data) {
+    var messages = document.getElementById('messages');
+    var item = document.createElement('li');
+    item.textContent = data.username + ": " + data.message;
+    messages.appendChild(item);
+    messages.scrollTop = messages.scrollHeight;
+  });
+  function sendMessage() {
+    var input = document.getElementById('chat_input');
+    var message = input.value;
+    if (message) {
+      socket.emit('send_dm_message', { other_id: otherId, message: message });
+      input.value = "";
+    }
+  }
+  document.getElementById('chat_input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') sendMessage();
+  });
+  var messagesEl = document.getElementById('messages');
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+</script>
+{% endblock %}

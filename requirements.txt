@@ -1,0 +1,4 @@
+flask
+flask-socketio
+flask-wtf
+argon2-cffi
