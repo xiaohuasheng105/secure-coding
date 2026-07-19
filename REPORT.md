@@ -1,5 +1,5 @@
 # Secure Coding 과제 보고서 — Tiny Secondhand Shopping Platform
-
+https://github.com/xiaohuasheng105/secure-coding
 ## 0. 개요
 
 - 과제: 중고거래 플랫폼 개발 및 시큐어 코딩 적용
